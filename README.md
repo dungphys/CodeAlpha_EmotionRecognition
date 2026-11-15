@@ -54,8 +54,8 @@ The Emo-DB database [[1]](#R1) is the freely available German emotional database
 The MFCCs-extraction workflow is depicted as follows (see Ref.[[2]](#R2)):
 
 ```mermaid
-graph LR
-    A(["Audio signal waveform"]) --> B["Pre-emphasis"] --> C["Framming"] --> D["Windowing \n (e.g., Hamming)"] --> E["FFT"] --> F["Mel filterbank"] --> G["DTC"] --> H(["MFCC"]) 
+graph TD
+    A(["Audio signal"]) --> B["Pre-emphasis"] --> C["Framming"] --> D["Windowing \n (e.g., Hamming)"] --> E["FFT"] --> F["Mel filterbank"] --> G["DCT"] --> H(["MFCC"]) 
 ```
 
 (in progress)
