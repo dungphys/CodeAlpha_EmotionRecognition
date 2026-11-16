@@ -12,11 +12,13 @@ Deep learning techniques for emotion recognition
 ## Table of Contents
 
 1. [Objective](#1-objective)
-2. [Data information](#2-data-information)
-3. [Feature extraction](#3-feature-extraction)   
+2. [Data Information](#2-data-information)
+3. [Feature Extraction](#3-feature-extraction)   
     3.1 [Metadata and data cleaning](#31-metadata-and-data-cleaning)   
     3.2 [Mel Frequency Cepstral Coefficients (MFCCs) extraction](#32-mel-frequency-cepstral-coefficients-mfccs-extraction)
-4. [Convolutional neural network (NCC)](#4-convolutional-neural-network-cnn)  
+4. [Baseline: XGBoost Classifier](#4-baseline-xgboost-classifier)
+5. [Long Short Term Memory (LSTM) Network](#5-long-short-term-memory-lstm)
+6. [Convolutional neural network (NCC)](#6-convolutional-neural-network-cnn)  
 [References](#references)
 ***
 <a id="s01"></a>
@@ -42,7 +44,7 @@ graph LR
 
 The dataset used in this project is the Emo-DB dataset.
 
-The Emo-DB database [[1]](#R1) is the freely available German emotional database. The database is created by authors from the Institut für Sprache und Kommunikation, Technische Universität Berlin (TU Berlin), Germany. Ten professional speakers (five males and five females) participated in data recording. This was as a part of the DFG funded research project SE462/3-1 in 1997 and 1999.
+The Emo-DB database [[1]](#R1) is the freely available German emotional database. The database is created by authors from the Institut für Sprache und Kommunikation, Technische Universität Berlin (TU Berlin), Germany. In this project, ten professional speakers (five males and five females) participated in data recording.
 
 - Name: Emo-DB
 - Authors: Walter F. Sendlmeier, Felix Burkhardt, Miriam Kienast, Benjamin Weiss, Astrid Paeschke.
@@ -154,9 +156,14 @@ Mel Energy Heatmap
 The full MFCCs are stored as input features for Deep Learning workflows. 
 The means and stdevs of MFCCs (over frames), and of their first detivative (delta MFCCs), are also calculated as features for the baseline classical ML algorithm. 
 
+## <font color="orange"> 4. Baseline: XGBoost Classifier </font>
 
-<a id="s04"></a>
-## <font color="orange"> 4. Convolutional Neural Network (CNN) </font>
+
+
+## <font color="orange"> 5. Long Short Term Memory (LSTM) Network </font>
+
+<a id="s06"></a>
+## <font color="orange"> 6. Convolutional Neural Network (CNN) </font>
 
 (in progress)
 
