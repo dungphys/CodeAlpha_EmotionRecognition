@@ -16,7 +16,7 @@ Deep learning techniques for emotion recognition
 3. [Feature Extraction](#3-feature-extraction)   
     3.1 [Metadata and data cleaning](#31-metadata-and-data-cleaning)   
     3.2 [Mel Frequency Cepstral Coefficients (MFCCs) extraction](#32-mel-frequency-cepstral-coefficients-mfccs-extraction)
-4. [Baseline: XGBoost Classifier](#4-baseline-xgboost-classifier)
+4. [Baseline: SVC](#4-baseline-svc)
 5. [Long Short Term Memory (LSTM) Network](#5-long-short-term-memory-lstm)
 6. [Convolutional neural network (NCC)](#6-convolutional-neural-network-cnn)  
 [References](#references)
@@ -156,14 +156,20 @@ Mel Energy Heatmap
 The full MFCCs are stored as input features for Deep Learning workflows. 
 The means and stdevs of MFCCs (over frames), and of their first detivative (delta MFCCs), are also calculated as features for the baseline classical ML algorithm. 
 
-## <font color="orange"> 4. Baseline: XGBoost Classifier </font>
+## <font color="orange"> 4. Baseline: SVC </font>
+
+I used two pipelines with and without PCA (no tuning), and examine the model performance with different values of C and gamma. Two pipelines give almost the same results (so PCA does not really help). The performance of the pipeline without PCA is given below.
+
+<center>
+<img src="./images/svc_wo_pca.png" alt="mel" width="720">
+
+Without PCA
+</center>
+
+The heatmaps show that the best test balanced accuracy is about 0.65 (macro F1 about 0.63), reached in a broad plateau at intermediate gamma (about 2e-3 to 1.5e-2) and $C \ge 2$. For large gamma ($\ge 0.05$) the model overfits severely: the train-test accuracy gap exceeds 0.65 and test balanced accuracy falls to chance level (about 0.15). Even in the best region, the gap remains around 0.35, indicating that the SVC fits the small EMO-DB training set far better than it generalizes. For very small C and gamma the model underfits. Adding gender and age to the acoustic features does not improve results. Overall, the SVC achieves only moderate performance on EMO-DB.
 
 
-
-## <font color="orange"> 5. Long Short Term Memory (LSTM) Network </font>
-
-<a id="s06"></a>
-## <font color="orange"> 6. Convolutional Neural Network (CNN) </font>
+## <font color="orange"> 5. Convolutional Neural Network (CNN) </font>
 
 (in progress)
 
