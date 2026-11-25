@@ -17,8 +17,7 @@ Deep learning techniques for emotion recognition
     3.1 [Metadata and data cleaning](#31-metadata-and-data-cleaning)   
     3.2 [Mel Frequency Cepstral Coefficients (MFCCs) extraction](#32-mel-frequency-cepstral-coefficients-mfccs-extraction)
 4. [Baseline: SVC](#4-baseline-svc)
-5. [Long Short Term Memory (LSTM) Network](#5-long-short-term-memory-lstm)
-6. [Convolutional neural network (NCC)](#6-convolutional-neural-network-cnn)  
+5. [Convolutional neural network (NCC)](#5-convolutional-neural-network-cnn)  
 [References](#references)
 ***
 <a id="s01"></a>
@@ -36,7 +35,7 @@ The general workflow of this projects is as follows:
 
 ```mermaid
 graph LR
-    A(["Audio files"]) --> B["Feature extraction \n (Metadata and MFCCs)"] --> C["Training And Evaluation \n (CNN/LSTM)"] 
+    A(["Audio files"]) --> B["Feature extraction"] --> C["Training And Evaluation \n (SVG/CNN)"] 
 ```
 
 <a id="s02"></a>
@@ -171,7 +170,29 @@ The heatmaps show that the best test balanced accuracy is about 0.65 (macro F1 a
 
 ## <font color="orange"> 5. Convolutional Neural Network (CNN) </font>
 
-(in progress)
+###  <font color="green"> **5.1 Preparation** </font>
+- Pick 2 participants (1 male + 1 female) for test set
+- Pick 2 participants (1 male + 1 female) for validation set
+- Perform standard normalization of mfcc data, with mean and stdev from training set (no leakage) 
+- Time-length fixing: force all MFCC data having the same number of time frames (T). T is set to be the number of time frames where 95% of training mfcc data is shorter than or equal to.
+- Compute class weights for training (the EmoDB dataset is mildly imbalanced)
+
+### <font color="green"> **5.2 Model construction** </font>
+I use both one-dime and two-dim CNN constructions for the modelling. The workflows are shown below.
+<center>
+<img src="./images/mfcc_cnn_1d_workflow_general.png" alt="1d" width="350">
+<img src="./images/mfcc_cnn_2d_workflow_general.png" alt="2d" width="350">
+
+CNN workflows
+</center>
+ 
+<center>
+<img src="./images/conv_block_internals_1d_vs_2d.png" alt="1d" width="450">
+
+Convolutional block
+</center>
+
+
 
 <a id="s-ref"></a>
 ## <font color="orange"> References </font>
