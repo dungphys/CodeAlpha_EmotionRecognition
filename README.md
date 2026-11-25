@@ -179,18 +179,17 @@ The heatmaps show that the best test balanced accuracy is about 0.65 (macro F1 a
 
 ### <font color="green"> **5.2 Model construction** </font>
 I use both one-dime and two-dim CNN constructions for the modelling. The workflows are shown below.
-<center>
+<p align="center">
 <img src="./images/mfcc_cnn_1d_workflow_general.png" alt="1d" width="350">
 <img src="./images/mfcc_cnn_2d_workflow_general.png" alt="2d" width="350">
 
 CNN workflows
-</center>
- 
-<center>
+</p> 
+<p align="center">
 <img src="./images/conv_block_internals_1d_vs_2d.png" alt="1d" width="450">
 
 Convolutional block
-</center>
+</p>
 
 
 
