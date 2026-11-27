@@ -153,7 +153,7 @@ Mel Energy Heatmap
 > **Note:** The Python library librosa also offers mfcc extraction, using Hanning windowing instead of Hamming. Here I prefer doing it by myself step-by-step.
 
 The full MFCCs are stored as input features for Deep Learning workflows. 
-The means and stdevs of MFCCs (over frames), and of their first detivative (delta MFCCs), are also calculated as features for the baseline classical ML algorithm. 
+The means and stdevs of MFCCs (over frames), and of their first derivative (delta MFCCs), are also calculated as features for the baseline classical ML algorithm. 
 
 ## <font color="orange"> 4. Baseline: SVC </font>
 
@@ -165,7 +165,7 @@ I used two pipelines with and without PCA (no tuning), and examine the model per
 Without PCA
 </center>
 
-The heatmaps show that the best test balanced accuracy is about 0.65 (macro F1 about 0.63), reached in a broad plateau at intermediate gamma (about 2e-3 to 1.5e-2) and $C \ge 2$. For large gamma ($\ge 0.05$) the model overfits severely: the train-test accuracy gap exceeds 0.65 and test balanced accuracy falls to chance level (about 0.15). Even in the best region, the gap remains around 0.35, indicating that the SVC fits the small EMO-DB training set far better than it generalizes. For very small C and gamma the model underfits. Adding gender and age to the acoustic features does not improve results. Overall, the SVC achieves only moderate performance on EMO-DB.
+The heatmaps show a best test balanced accuracy of about 0.65 (macro F1 about 0.63), reached on a broad plateau at intermediate gamma (about 2e-3 to 1e-2) and C ≥ 2. For large gamma and large C the model overfits severely: the train-test gap reaches 0.65-0.85, and test balanced accuracy drops to 0.33 at gamma ≈ 5e-2 and to chance (about 0.15) at gamma = 0.1. For small C combined with either very small or very large gamma, the model underfits and predicts near-constant classes (gap ≈ 0, test balanced accuracy ≈ 0.15). Even in the best region the gap remains about 0.35, indicating that the SVC fits the training set far better than it generalizes. Adding gender and age does not noticeably change results. Overall, performance is moderate.
 
 
 ## <font color="orange"> 5. Convolutional Neural Network (CNN) </font>
@@ -181,12 +181,25 @@ The heatmaps show that the best test balanced accuracy is about 0.65 (macro F1 a
 I use both one-dime and two-dim CNN constructions for the modelling. The workflows are shown below.
 <p align="center">
 <img src="./images/mfcc_cnn_1d_workflow_general.png" alt="1d" width="350">
-<img src="./images/mfcc_cnn_2d_workflow_general.png" alt="2d" width="350">
-
+<img src="./images/mfcc_cnn_2d_workflow_general.png" alt="2d" width="350">   
 CNN workflows
 </p> 
+
+The number in the above diagrams:
+- B: batch size (=32 in current implementation, see `make_loader` helper)
+- T: number of time frames (95% length)
+- F: number of MFCC coefficients (`n_mfcc`)
+- C1, C2, C3: channels on three conv blocks
+- H: hidden width of the first linear layer
+- K: number of classes (`n_classes`)
+
+The 1D model slides filters along time only and mixes all MFCC coefficients at every step. The 2D CNN model treats (T, F) matrix as an image and slides filters over both time and coefficients dimensions. The latter model basically assumes that a pattern means the same thing when shifting along coefficient direction. In fact, MFCCs have their own meaning, $c_{i+1}$ is not the shifted version of $c_i$. So, as a rule of thumb, 1D CNN is expected to be better than 2D CNN, as it keeps separate weights for each coefficient, sees the whole spectral shape at every step, and pools only over time. However, this is just an expectation. Therefore I run both models. Because  mfcc data is not large, the CNN I used is simple: only 3 convolutional blocks and 1 hidden FC, with relatively small-to-moderate input andd output channel counts (128/64). The layers are paired with Dropout and Batch Normalization.
+
+
+The convolutional blocks are as follow:
+
 <p align="center">
-<img src="./images/conv_block_internals_1d_vs_2d.png" alt="1d" width="450">
+<img src="./images/conv_block_internals_1d_vs_2d.png" alt="1d" width="450"> 
 
 Convolutional block
 </p>
